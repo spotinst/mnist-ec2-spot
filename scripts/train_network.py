@@ -30,7 +30,6 @@ def main():
     dataset_path = os.path.join(volume_mount_dir, 'datasets')
     checkpoint_path = os.path.join(volume_mount_dir, 'checkpoints')
     checkpoint_names = 'mnist_model.{epoch:03d}.h5'
-    today_date = datetime.datetime.today().strftime('%Y-%m-%d')
 
     # the data, split between train and test sets
     (x_train, y_train), (x_test, y_test) = mnist.load_data(dataset_path + "/mnist.npz")
@@ -79,6 +78,7 @@ def main():
     # A callback is a set of functions to be applied at given stages of the training procedure.
     # You can use callbacks to get a view on internal states and statistics of the model during training.
     checkpoint_filepath = os.path.join(checkpoint_path, checkpoint_names)
+    today_date = datetime.datetime.today().strftime('%Y-%m-%d')
     callbacks = create_callbacks_functions(volume_mount_dir, checkpoint_filepath, today_date)
 
     # prepare model
@@ -131,7 +131,7 @@ def create_callbacks_functions(volume_mount_dir, checkpoint_file_path, today_dat
     checkpoint_callback = ModelCheckpoint(filepath=checkpoint_file_path,
                                           save_weights_only=False,
                                           monitor='val_loss')
-    # Loss history callback
+    # result history callback
     epoch_results_callback = CSVLogger(os.path.join(volume_mount_dir, 'log_{}.csv'.format(today_date)),
                                        append=True)
     # Create spot termination callback
@@ -150,7 +150,6 @@ def save_model(today_date):
 
     # serialize weights to HDF5
     model.save_weights("/dl/models/model_mnist_{}.h5".format(today_date))
-    print("Saved model to disk")
 
 
 if __name__ == "__main__":
