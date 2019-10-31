@@ -154,5 +154,3 @@ def save_model(today_date):
 
 if __name__ == "__main__":
     main()
-
-
