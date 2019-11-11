@@ -119,8 +119,8 @@ def load_model_from_checkpoints(path, name):
 def get_spot_termination_callback():
     class SpotTermination(keras.callbacks.Callback):
         def on_batch_begin(self, batch, logs={}):
-            status_code = requests.get("http://169.254.169.254/latest/meta-data/spot/instance-action").status_code
-            if status_code != 404:
+            action = requests.get("http://169.254.169.254/latest/meta-data/spot/instance-action").action
+            if not action == "terminate":
                 time.sleep(150)
 
     return SpotTermination()
