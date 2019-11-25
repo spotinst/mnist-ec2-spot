@@ -35,7 +35,7 @@ mkdir -p models
 mkdir -p ~/ec2-spot-labs
 git clone https://github.com/essale/mnist-ec2-spot.git
 chown -R ubuntu: mnist-ec2-spot
-cd ~/ec2-spot-labs/mnist-ec2-spot/scripts/
+cd /dl/mnist-ec2-spot/scripts/
 
 # Download dataset if not already downloaded before
 [ "$(ls -A /dl/datasets/)" ] && echo "Not Empty" || curl -o /dl/datasets/mnist.npz https://s3.amazonaws.com/img-datasets/mnist.npz
